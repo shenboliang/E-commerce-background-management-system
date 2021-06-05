@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import login from '../view/login.vue'
-
+import welcome from '../view/home-child/welcome.vue'
 
 Vue.use(VueRouter)
 
@@ -16,7 +16,50 @@ const routes = [
   },
   {
     path:'/home',
-    component:()=>import("../view/home.vue")
+    component:()=>import("../view/home.vue"),
+    // 进入该组件后，自动重定向到  welcome 组件
+    redirect :'/welcome',
+    // home 页面下面的组件
+    children:[
+      {
+        path:'/welcome',
+        component: welcome
+      },
+      {
+        path : '/users',
+        component:()=>import('../view/home-child/users.vue')
+      },
+      {
+        path:'/roles',
+        component:()=> import('../view/home-child/roles.vue')
+      },
+      {
+        path:'/rights',
+        component:()=>import('../view/home-child/rights.vue')
+      },
+      {
+        path:'/reports',
+        component:()=>import('../view/home-child/reports.vue')
+      },
+      {
+        path:'/params',
+        component:()=>import('../view/home-child/params.vue')
+      },
+      {
+        path:'/orders',
+        component:()=>import('../view/home-child/orders.vue')
+      },
+      {
+        path:'/goods',
+        component:()=>import('../view/home-child/goods.vue')
+      },
+      {
+        path:'/categories',
+        component:()=>import('../view/home-child/categories.vue')
+      }
+
+
+    ]
   } 
 ]
 
@@ -49,11 +92,7 @@ const router = new VueRouter({
 
       if(!tokenStr)  return next('/login')
 
-      next()
-
-
-      console.log(to,from )
-    
+      next()    
 
 
   })

@@ -1,11 +1,14 @@
 import axios from 'axios'
 
-export  function request(config,param){
+export  function request(config){
     // (1) 创建一个 axios实例
 
     const  instance = axios.create({
         timeout : 5000,
         baseURL: 'http://47.108.206.212:9999/api/private/v1/'
+
+        // 该接口维护到 23年
+        // baseURL:'http://timemeetyou.com:8889/api/private/v1/'
     })
 
     
@@ -15,9 +18,12 @@ export  function request(config,param){
 
        instance.interceptors.request.use(config=>{
           
+        config.headers.Authorization =  window.sessionStorage.getItem('token')
+
+       
             return config
         },err=>{
-            console.log(err)
+           
                 return  err
         })
 
@@ -29,9 +35,9 @@ export  function request(config,param){
          
             return res
         },err=>{
-            console.log(err)
+           return err
         })
 
-    return instance(config,param)
+    return instance(config)
          
       } 

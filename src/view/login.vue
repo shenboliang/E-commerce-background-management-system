@@ -86,6 +86,7 @@ export default {
 
                  window.sessionStorage.setItem('token',res.data.data.token)
 
+              
                  this.$router.push('/home')
                    
 
