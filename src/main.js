@@ -10,6 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 require('./assets/css/base.css')
 require('./assets/css/normalize.css')
 require('./assets/css/fonts/iconfont.css')
+import Treegrid  from 'vue-table-with-tree-grid'
 
 import { MessageBox } from 'element-ui'
 
@@ -40,4 +41,6 @@ Vue.prototype.$message = Message
 // 要通过挂载的方式才能使用，只是一种方法
 
 Vue.prototype.$confirm = MessageBox.confirm
+
+Vue.component('tree-table',Treegrid)
 

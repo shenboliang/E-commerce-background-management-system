@@ -258,6 +258,8 @@ export default {
                 this.list = res.data.data.users
                 this.total = res.data.data.total
 
+                console.log(res)
+
             })
 
         },
