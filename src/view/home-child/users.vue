@@ -90,7 +90,7 @@
                         <!-- 分配角色 -->
 
            <el-tooltip class="item" effect="dark" content="分配角色" placement="top"  :enterable="false">
-     <el-button type="warning" icon="el-icon-share"></el-button>
+     <el-button type="warning" icon="el-icon-share"  @click="fenpeijuese(scope.row)"></el-button>
     </el-tooltip>
         </template>
     </el-table-column>
@@ -108,6 +108,41 @@
       :total="total">
     </el-pagination>
     </el-card>
+
+            <!-- 分配角色对话框 -->
+
+  <el-dialog
+  title="分配角色"
+  :visible.sync="fenpeishow"
+  width="50%"  @close='getcloseSelect'>
+            
+      <div>
+        <span>当前的用户：</span>
+        <span>{{fenpeiForm.username}}</span>
+      </div>
+
+      <div class="dialog-center">
+        <span>当前的角色：</span>
+        <span>{{fenpeiForm.role_name}}</span>
+      </div>
+      
+    
+
+   分配新角色：   <el-select v-model="roleMessage" placeholder="请选择" >
+    <el-option
+      v-for="item in roleList"
+      :key="item.id"
+      :label="item.roleName"
+      :value="item.id">
+    </el-option>
+  </el-select>
+
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="fenpeishow = false">取 消</el-button>
+    <el-button type="primary"  @click="addFen">确 定</el-button>
+  </span>
+</el-dialog>
+
 
             <!-- 修改用户数据对话框 -->
 
@@ -194,8 +229,19 @@ export default {
             // 控制修改数据对话框
             xiugaidata:false,
             // 存放修改用户数据的数据
-            editFrom : {}
-            
+            editFrom : {},
+            // 控制分配角色对话框是否显示i
+             fenpeishow:false,
+             //分配角色绑定的表单
+              fenpeiForm:{
+                id: '',
+                role_name:'',
+                username : ''
+              },
+              // 当前角色列表
+              roleList:[],
+              // 分配角色上传参数-->已经选中的角色id
+              roleMessage:''     
         }
     },
     created(){
@@ -319,11 +365,17 @@ export default {
         xiugaiclose(){
             
         },
+          //获取用户列表方法
+          getUserList(){
+                  this.$http.get('roles').then(res=> {
+
+                        this.roleList  = res.data.data
+                        console.log(this.roleList)
+                  })
+              },
+      
         removeUser(id){
   
-          
-
-
            this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -350,7 +402,43 @@ export default {
             message: '已取消删除'
           });          
         });
+        },
+        // 监听分配角色按钮的点击事件 : 通过参数的方式获取到 scope.row 传过来的点击的用户的数据
+        fenpeijuese(data){
+          this.fenpeishow  = true
+
+          console.log(data)
+          
+          this.fenpeiForm.id = data.id
+
+        this.fenpeiForm.role_name = data.role_name
+          
+          this.fenpeiForm.username = data.username
+
+            this.getUserList() 
+         
+        },
+        //监听分配角色对话框的确定按钮
+        addFen(){
+
+            if(!this.roleMessage)  return this.$message.error('请选择要分配的角色')
+
+              this.fenpeishow  = false
+
+              this.$http.put(`users/${this.fenpeiForm.id}/role`,{rid:this.roleMessage}).then(res=>{
+
+                  if(res.data.meta !== 200 ){ return this.$message.error('设置失败') }else{
+
+                     this.$message.success('设置成功')
+                  }
+
+              })
+        },
+        // 关闭分配权限的对话框时，重置相关内容
+        getcloseSelect(){
+          this.roleMessage = ''
         }
+
     }
 
 }
@@ -362,5 +450,9 @@ export default {
 }
 .table-le{
     margin-top: 20px;
+}
+.dialog-center{
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>
