@@ -362,4 +362,7 @@ export default {
 .margin{
     margin-top: 20px;
 }
+.box-card{
+    margin-top: 20px;
+}
 </style>
