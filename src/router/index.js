@@ -39,7 +39,7 @@ const routes = [
       },
       {
         path:'/reports',
-        component:()=>import('../view/home-child/reports.vue')
+        component:()=>import('../view/home-child/repot.vue')
       },
       {
         path:'/params',
