@@ -5,3 +5,6 @@ body{
 #app{
     min-width: 1366px;
 }
+.quill-editor{
+    min-height: 300px;
+}

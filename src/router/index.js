@@ -51,12 +51,17 @@ const routes = [
       },
       {
         path:'/goods',
-        component:()=>import('../view/home-child/goods.vue')
+        component:()=>import('../view/home-child/goods.vue'),
+      
       },
       {
         path:'/categories',
         component:()=>import('../view/home-child/categories.vue')
-      }
+      },
+
+      {path:'/goods/add',
+      component:()=>import('../view/home-child/goods-add.vue')
+  }
 
 
     ]

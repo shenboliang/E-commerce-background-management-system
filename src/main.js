@@ -12,7 +12,17 @@ require('./assets/css/normalize.css')
 require('./assets/css/fonts/iconfont.css')
 import Treegrid  from 'vue-table-with-tree-grid'
 
+
 import { MessageBox } from 'element-ui'
+
+import VueQuillEditor from 'vue-quill-editor'
+
+import 'quill/dist/quill.core.css' // import styles
+import 'quill/dist/quill.snow.css' // for snow theme
+import 'quill/dist/quill.bubble.css' // for bubble theme
+
+
+Vue.use(VueQuillEditor, /* { default global options } */)
 
 Vue.use(ElementUI);
 
@@ -43,4 +53,26 @@ Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
 
 Vue.component('tree-table',Treegrid)
+
+// 定义一个全局的事件过滤器
+
+Vue.filter('dateForn', function(Fdate){
+
+    var dt = new  Date(Fdate)
+
+    var  y = dt.getFullYear()
+
+    var m  = (dt.getMonth()+1+'').padStart(2,'0')
+
+    var d  = (dt.getDate()+'').padStart(2,'0')
+
+    var hh  = (dt.getHours() + '').padStart(2,'0')
+
+    var mm = (dt.getMinutes() +'').padStart(2,'0')
+
+    var ss = (dt.getSeconds() + '').padStart(2,'0')
+
+    return  `${y}-${m}-${d}   ${hh}:${mm}:${ss}`
+
+})
 
