@@ -1,4 +1,10 @@
 import axios from 'axios'
+// 加载显示进度条功能
+
+import Nprogress from  'nprogress'
+import 'nprogress/nprogress.css'
+
+
 
 export  function request(config){
     // (1) 创建一个 axios实例
@@ -19,7 +25,7 @@ export  function request(config){
        instance.interceptors.request.use(config=>{
           
         config.headers.Authorization =  window.sessionStorage.getItem('token')
-
+        Nprogress.start()
        
             return config
         },err=>{
@@ -31,13 +37,11 @@ export  function request(config){
         // 响应拦截 
 
 
-      instance.interceptors.response.use(res=>{
-         
-            return res
-        },err=>{
-           return err
+      instance.interceptors.response.use(config=>{
+            Nprogress.done()
+           return config
         })
-
+     
     return instance(config)
          
       } 

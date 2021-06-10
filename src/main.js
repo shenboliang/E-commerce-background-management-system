@@ -12,6 +12,11 @@ require('./assets/css/normalize.css')
 require('./assets/css/fonts/iconfont.css')
 import Treegrid  from 'vue-table-with-tree-grid'
 
+// 加载显示进度条功能
+
+import Nprogress from  'nprogress'
+import 'nprogress/nprogress.css'
+
 
 import { MessageBox } from 'element-ui'
 
@@ -30,8 +35,19 @@ Vue.use(Message)
 
 axios.defaults.baseURL = 'http://47.108.206.212:9999/api/private/v1/'
 
+
+// 请求成功拦截展示加载进度条功能： Nprogress.start()
+
+
 axios.interceptors.request.use(config=>{
   config.headers.Authorization = window.sessionStorage.getItem('token')
+  Nprogress.start()
+  return  config
+})
+
+// 响应过程中隐藏加载进度条  ：  Nprogress.done()
+axios.interceptors.response.use(config=>{
+  Nprogress.done()
   return  config
 })
 
@@ -75,4 +91,3 @@ Vue.filter('dateForn', function(Fdate){
     return  `${y}-${m}-${d}   ${hh}:${mm}:${ss}`
 
 })
-

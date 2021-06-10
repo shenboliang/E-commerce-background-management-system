@@ -1,6 +1,6 @@
 <template>
     <div class="wel">
-        welcomeddddd
+      <h1>欢迎来到电商后台管理系统</h1> 
     </div>
 </template>
 <script>
